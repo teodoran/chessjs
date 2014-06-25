@@ -1,0 +1,29 @@
+{
+  "name": "chessjs",
+  "version": "0.0.0",
+  "description": "informal chess AI",
+  "main": "chess.js",
+  "scripts": {
+    "test": "mocha --reporter spec",
+    "start": "node chess.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/teodoran/chessjs.git"
+  },
+  "keywords": [
+    "chess",
+    "ai",
+    "js"
+  ],
+  "author": "Teodor Ande Elstad (teodoran)",
+  "license": "GPL V.2",
+  "readmeFilename": "README.md",
+  "gitHead": "856e5b88e0d828bc06ff89ce385935bb40d8db04",
+  "dependencies": {
+    "mocha": "~1.20.1"
+  },
+  "devDependencies": {
+    "should": "~4.0.4"
+  }
+}
