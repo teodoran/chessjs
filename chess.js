@@ -38,7 +38,7 @@ var updatePosition = function (position, moves) {
 
     var move = _.first(moves),
         newPosition = _.chain(position)
-            .reject(function (piece) {  // Remove any possibly take pieces.
+            .reject(function (piece) {  // Remove any possibly taken pieces.
                 return locatedAt(piece, move[1]);
             })
             .map(function (piece) { // Move the piece.
@@ -72,7 +72,33 @@ var prettyPosition = function (position) {
     return board;
 };
 
+var freePath = function (position, from, to) {
+    // Starting point: iterate over the path coordinates.
+
+    return true;
+};
+
+var pawnMoves = function (position, pawn) {
+    var moves = [],
+        cc = pawn.position,
+        direction = 1;
+
+    if (pawn.color === 'b') { direction = -1; }
+
+    moves.push([cc, [cc[0], cc[1] + direction]]);
+
+    return _.reject(moves, function (move) {
+        return _.some(position, function (piece) {
+            return locatedAt(piece, move[1]);
+        });
+    });
+};
+
 exports.newPiece = newPiece;
+
 exports.initialPosition = initialPosition;
 exports.updatePosition = updatePosition;
 exports.prettyPosition = prettyPosition;
+
+exports.freePath = freePath;
+exports.pawnMoves = pawnMoves;

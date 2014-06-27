@@ -61,4 +61,46 @@ describe('Chess', function () {
             c.prettyPosition(c.initialPosition()).should.eql(pp);
         });
     });
+
+    describe('pawnMoves', function () {
+        it('should be able to calculate normal white pawn moves', function () {
+            var pawn = c.newPiece([5, 3], 'P', 'w'),
+                initialPosition = [pawn];
+
+            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 3], [5, 4]]]);
+        });
+
+        it('should be able to calculate normal black pawn moves', function () {
+            var pawn = c.newPiece([5, 5], 'P', 'b'),
+                initialPosition = [pawn];
+
+            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 5], [5, 4]]]);
+        });
+
+        it('should not move pawn to blocked square', function () {
+            var whitePawn = c.newPiece([5, 4], 'P', 'w'),
+                blackPawn = c.newPiece([5, 5], 'P', 'b'),
+                initialPosition = [whitePawn, blackPawn];
+
+            c.pawnMoves(initialPosition, whitePawn).should.eql([]);
+            c.pawnMoves(initialPosition, blackPawn).should.eql([]);
+        });
+    });
+
+    describe('freePath', function () {
+        it('should return true for no move', function () {
+            var initialPosition = [];
+
+            // This generates a jslint error, due to the design of shouldjs. No ignore statement exists.
+            c.freePath(initialPosition, [1, 1], [1, 1]).should.be.true;
+        });
+
+        // it('should not allow horizontal blocking pieces', function () {
+        //     var initialPosition = [c.newPiece([2, 4], 'P', 'w'),
+        //                            c.newPiece([7, 4], 'P', 'w')];
+
+        //     c.freePath(initialPosition, [4, 4], [1, 4]).should.not.be.true;
+        //     c.freePath(initialPosition, [4, 4], [8, 4]).should.not.be.true;
+        // });
+    });
 });
