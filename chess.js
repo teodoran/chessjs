@@ -110,15 +110,30 @@ var freePath = function (position, from, to) {
 var pawnMoves = function (position, pawn) {
     var moves = [],
         cc = pawn.position,
-        direction = 1;
+        direction = 1,
+        startRank = 2,
+        moveCandidate;
 
-    if (pawn.color === 'b') { direction = -1; }
+    if (pawn.color === 'b') {
+        direction = -1;
+        startRank = 7;
+    }
 
-    moves.push([cc, [cc[0], cc[1] + direction]]);
+    moveCandidate = [cc[0], cc[1] + direction];
 
-    return _.reject(moves, function (move) {
-        return occupiedSquare(position, move[1]);
-    });
+    if (!occupiedSquare(position, moveCandidate)) {
+        moves.push([cc, moveCandidate]);
+    }
+
+    if (cc[1] === startRank) {
+        moveCandidate = [cc[0], cc[1] + 2 * direction];
+
+        if (!occupiedSquare(position, moveCandidate) && freePath(position, cc[0], moveCandidate)) {
+            moves.push([cc, moveCandidate]);
+        }
+    }
+
+    return moves;
 };
 
 exports.newPiece = newPiece;

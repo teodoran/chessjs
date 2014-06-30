@@ -62,31 +62,6 @@ describe('Chess', function () {
         });
     });
 
-    describe('pawnMoves', function () {
-        it('should be able to calculate normal white pawn moves', function () {
-            var pawn = c.newPiece([5, 3], 'P', 'w'),
-                initialPosition = [pawn];
-
-            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 3], [5, 4]]]);
-        });
-
-        it('should be able to calculate normal black pawn moves', function () {
-            var pawn = c.newPiece([5, 5], 'P', 'b'),
-                initialPosition = [pawn];
-
-            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 5], [5, 4]]]);
-        });
-
-        it('should not move pawn to blocked square', function () {
-            var whitePawn = c.newPiece([5, 4], 'P', 'w'),
-                blackPawn = c.newPiece([5, 5], 'P', 'b'),
-                initialPosition = [whitePawn, blackPawn];
-
-            c.pawnMoves(initialPosition, whitePawn).should.eql([]);
-            c.pawnMoves(initialPosition, blackPawn).should.eql([]);
-        });
-    });
-
     describe('freePath', function () {
         it('should return true for no move', function () {
             var initialPosition = [];
@@ -133,6 +108,45 @@ describe('Chess', function () {
             c.freePath(initialPosition, [4, 4], [7, 7]).should.be.true;
             c.freePath(initialPosition, [4, 4], [6, 2]).should.be.true;
             c.freePath(initialPosition, [4, 4], [2, 2]).should.be.true;
+        });
+    });
+
+    describe('pawnMoves', function () {
+        it('should be able to calculate normal white pawn moves', function () {
+            var pawn = c.newPiece([5, 3], 'P', 'w'),
+                initialPosition = [pawn];
+
+            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 3], [5, 4]]]);
+        });
+
+        it('should be able to calculate normal black pawn moves', function () {
+            var pawn = c.newPiece([5, 5], 'P', 'b'),
+                initialPosition = [pawn];
+
+            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 5], [5, 4]]]);
+        });
+
+        it('should include initial double move option for white pawns', function () {
+            var pawn = c.newPiece([5, 2], 'P', 'w'),
+                initialPosition = [pawn];
+
+            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 2], [5, 3]], [[5, 2], [5, 4]]]);
+        });
+
+        it('should include initial double move option for black pawns', function () {
+            var pawn = c.newPiece([5, 7], 'P', 'b'),
+                initialPosition = [pawn];
+
+            c.pawnMoves(initialPosition, pawn).should.eql([[[5, 7], [5, 6]], [[5, 7], [5, 5]]]);
+        });
+
+        it('should not move pawn to blocked square', function () {
+            var whitePawn = c.newPiece([5, 4], 'P', 'w'),
+                blackPawn = c.newPiece([5, 5], 'P', 'b'),
+                initialPosition = [whitePawn, blackPawn];
+
+            c.pawnMoves(initialPosition, whitePawn).should.eql([]);
+            c.pawnMoves(initialPosition, blackPawn).should.eql([]);
         });
     });
 });
