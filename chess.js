@@ -72,8 +72,37 @@ var prettyPosition = function (position) {
     return board;
 };
 
+var unitize = function (value) {
+    if (value === 0) {
+        return 0;
+    }
+    if (value < 0) {
+        return -1;
+    }
+    return 1;
+};
+
+var occupiedSquare = function (position, coordinate) {
+    return _.some(position, function (piece) {
+        return locatedAt(piece, coordinate);
+    });
+};
+
 var freePath = function (position, from, to) {
-    // Starting point: iterate over the path coordinates.
+    var i, cs,
+        dx = to[0] - from[0],
+        dy = to[1] - from[1],
+        squaresInPath = _.max([Math.abs(dx), Math.abs(dy)]),
+        udx = unitize(dx),
+        udy = unitize(dy);
+
+    for (i = 1; i < squaresInPath; i = i + 1) {
+        cs = [from[0] + i * udx, from[1] + i * udy];
+
+        if (occupiedSquare(position, cs)) {
+            return false;
+        }
+    }
 
     return true;
 };
@@ -88,9 +117,7 @@ var pawnMoves = function (position, pawn) {
     moves.push([cc, [cc[0], cc[1] + direction]]);
 
     return _.reject(moves, function (move) {
-        return _.some(position, function (piece) {
-            return locatedAt(piece, move[1]);
-        });
+        return occupiedSquare(position, move[1]);
     });
 };
 

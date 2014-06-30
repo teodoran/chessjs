@@ -95,12 +95,44 @@ describe('Chess', function () {
             c.freePath(initialPosition, [1, 1], [1, 1]).should.be.true;
         });
 
-        // it('should not allow horizontal blocking pieces', function () {
-        //     var initialPosition = [c.newPiece([2, 4], 'P', 'w'),
-        //                            c.newPiece([7, 4], 'P', 'w')];
+        it('should not allow horizontal blocking pieces', function () {
+            var initialPosition = [c.newPiece([2, 4], 'P', 'w'),
+                                   c.newPiece([7, 4], 'P', 'w')];
 
-        //     c.freePath(initialPosition, [4, 4], [1, 4]).should.not.be.true;
-        //     c.freePath(initialPosition, [4, 4], [8, 4]).should.not.be.true;
-        // });
+            c.freePath(initialPosition, [4, 4], [1, 4]).should.not.be.true;
+            c.freePath(initialPosition, [4, 4], [8, 4]).should.not.be.true;
+        });
+
+        it('should not allow vertical blocking pieces', function () {
+            var initialPosition = [c.newPiece([5, 2], 'P', 'w'),
+                                   c.newPiece([5, 7], 'P', 'w')];
+
+            c.freePath(initialPosition, [5, 4], [5, 8]).should.not.be.true;
+            c.freePath(initialPosition, [5, 4], [5, 1]).should.not.be.true;
+        });
+
+        it('should not allow diagonal blocking pieces', function () {
+            var initialPosition = [c.newPiece([2, 6], 'P', 'w'),
+                                   c.newPiece([7, 7], 'P', 'w'),
+                                   c.newPiece([6, 2], 'P', 'w'),
+                                   c.newPiece([2, 2], 'P', 'w')];
+
+            c.freePath(initialPosition, [4, 4], [8, 8]).should.not.be.true;
+            c.freePath(initialPosition, [4, 4], [7, 1]).should.not.be.true;
+            c.freePath(initialPosition, [4, 4], [1, 7]).should.not.be.true;
+            c.freePath(initialPosition, [4, 4], [1, 1]).should.not.be.true;
+        });
+
+        it('should allow diagonal movement to square with piece on', function () {
+            var initialPosition = [c.newPiece([2, 6], 'P', 'w'),
+                                   c.newPiece([7, 7], 'P', 'w'),
+                                   c.newPiece([6, 2], 'P', 'w'),
+                                   c.newPiece([2, 2], 'P', 'w')];
+
+            c.freePath(initialPosition, [4, 4], [2, 6]).should.be.true;
+            c.freePath(initialPosition, [4, 4], [7, 7]).should.be.true;
+            c.freePath(initialPosition, [4, 4], [6, 2]).should.be.true;
+            c.freePath(initialPosition, [4, 4], [2, 2]).should.be.true;
+        });
     });
 });
