@@ -148,5 +148,27 @@ describe('Chess', function () {
             c.pawnMoves(initialPosition, whitePawn).should.eql([]);
             c.pawnMoves(initialPosition, blackPawn).should.eql([]);
         });
+
+        it('should capture pawns to the left', function () {
+            var whitePawn = c.newPiece([5, 4], 'P', 'w'),
+                blackPawn = c.newPiece([4, 5], 'P', 'b'),
+                initialPosition = [whitePawn, blackPawn];
+
+            c.pawnMoves(initialPosition, whitePawn).should.eql([[[5, 4], [5, 5]], [[5, 4], [4, 5]]]);
+            c.pawnMoves(initialPosition, blackPawn).should.eql([[[4, 5], [4, 4]], [[4, 5], [5, 4]]]);
+        });
+
+        it('should capture pawns to the right', function () {
+            var whitePawn = c.newPiece([4, 4], 'P', 'w'),
+                blackPawn = c.newPiece([5, 5], 'P', 'b'),
+                initialPosition = [whitePawn, blackPawn];
+
+            c.pawnMoves(initialPosition, whitePawn).should.eql([[[4, 4], [4, 5]], [[4, 4], [5, 5]]]);
+            c.pawnMoves(initialPosition, blackPawn).should.eql([[[5, 5], [5, 4]], [[5, 5], [4, 4]]]);
+        });
+
+        it('should capture pawns en passant in the future', function () {
+            'not yet implemented'.should.be.ok;
+        });
     });
 });

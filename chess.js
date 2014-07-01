@@ -107,6 +107,32 @@ var freePath = function (position, from, to) {
     return true;
 };
 
+var oppositeColor = function (pieceA, pieceB) {
+    if (pieceA.color === 'b' && pieceB.color === 'w') {
+        return true;
+    }
+    if (pieceA.color === 'w' && pieceB.color === 'b') {
+        return true;
+    }
+    return false;
+};
+
+var canCapture = function (position, coordinate, attackingPiece) {
+    var pieceToCapture = _.find(position, function (piece) {
+        return locatedAt(piece, coordinate);
+    });
+
+    if (pieceToCapture === undefined) {
+        return false;
+    }
+
+    if (oppositeColor(pieceToCapture, attackingPiece)) {
+        return true;
+    }
+
+    return false;
+};
+
 var pawnMoves = function (position, pawn) {
     var moves = [],
         cc = pawn.position,
@@ -131,6 +157,18 @@ var pawnMoves = function (position, pawn) {
         if (!occupiedSquare(position, moveCandidate) && freePath(position, cc[0], moveCandidate)) {
             moves.push([cc, moveCandidate]);
         }
+    }
+
+    moveCandidate = [cc[0] + 1, cc[1] + direction];
+
+    if (canCapture(position, moveCandidate, pawn)) {
+        moves.push([cc, moveCandidate]);
+    }
+
+    moveCandidate = [cc[0] - 1, cc[1] + direction];
+
+    if (canCapture(position, moveCandidate, pawn)) {
+        moves.push([cc, moveCandidate]);
     }
 
     return moves;
